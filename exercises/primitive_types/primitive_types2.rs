@@ -21,12 +21,12 @@ fn main() {
         println!("Neither alphabetic nor numeric!");
     }
 
-    let your_character = '𝄞';// Finish this line like the example! What's your favorite character?
+    let your_character = '1';// Finish this line like the example! What's your favorite character?
     // Try a letter, try a number, try a special character, try a character
     // from a different language than your own, try an emoji!
 
     println!("{}", your_character);           // 打印字符
-    println!("{:X}", your_character as u32);  // 十六进制码点：9673
+    println!("{:*^5}", your_character as u32);  // 十六进制码点：9673
 
     if your_character.is_alphabetic() {
         println!("Alphabetical!");
