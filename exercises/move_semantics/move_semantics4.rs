@@ -11,7 +11,8 @@
 fn main() {
     //let vec0 = Vec::new();
 
-    let mut vec1 = fill_vec();
+    let mut vec1 = fill_vec(); // 所有权从fill_vec 的局部变量vec上，转到 vec1 这个新变量上
+    
 
     println!("{} has length {} content `{:?}`", "vec1", vec1.len(), vec1);
 
