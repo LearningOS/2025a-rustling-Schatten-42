@@ -7,21 +7,21 @@
 
 
 fn main() {
-    let data = "Rust is great!".to_string();
+    let data = "Rust is great!".to_string(); // &str --> mut String
 
-    get_char(data.clone());
+    get_char(&data); // 不得拿走所有权
 
     string_uppercase(data);
 }
 
 // Should not take ownership
-fn get_char(data: String) -> char {
+fn get_char(data: &String) -> char {
     data.chars().last().unwrap()
 }
 
 // Should take ownership
 fn string_uppercase(mut data: String) {
-    data.to_uppercase();
+    data = data.to_uppercase(); // to_uppercase() 创建新String 赋值给 mut data, 覆盖原值
 
     println!("{}", data);
 }

@@ -8,10 +8,10 @@
 
 
 fn main() {
-    let mut x = 100;
-    let y = &mut x;
-    *y += 100;
-    let z = &mut x;
-    *z += 1000;
+    let mut x = 100; // 可变的变量
+    let y = &mut x; // y 是 x 的可变引用
+    *y += 100; // *y 可以修改 x 的值
+    let z = &mut x;  // z 也是 x 的可变引用
+    *z += 1000; // *z += 1000 相当于 x += 1000
     assert_eq!(x, 1200);
 }
