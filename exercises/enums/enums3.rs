@@ -9,6 +9,7 @@
 
 enum Message {
     // TODO: implement the message variant types based on their usage below
+    
 }
 
 struct Point {
