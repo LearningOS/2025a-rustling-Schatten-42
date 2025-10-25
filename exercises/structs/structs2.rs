@@ -19,6 +19,7 @@ struct Order {
 }
 
 fn create_order_template() -> Order {
+    
     Order {
         name: String::from("Bob"),
         year: 2019,
