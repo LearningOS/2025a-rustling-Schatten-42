@@ -26,13 +26,28 @@ impl ParsePosNonzeroError {
     }
     // TODO: add another error conversion function here.
     // fn from_parseint...
+    fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError {
+        ParsePosNonzeroError::ParseInt(err)
+    }
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
-    PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
+    /* let x = s.parse();
+   
+    match x {
+      Err(e) => Err(ParsePosNonzeroError::from_parseint(e)),
+      Ok(i) => PositiveNonzeroInteger::new(i).map_err(ParsePosNonzeroError::from_creation)
+    } // Ok() 会忽略 map_err， Err() 会忽略 map */
+
+    // 更简洁 
+    s.parse().map_err(ParsePosNonzeroError::from_parseint)
+             .and_then(|v| PositiveNonzeroInteger::new(v).map_err(ParsePosNonzeroError::from_creation))
+      // and_then
+      // 如果前一个返回的 Result 是 Ok(v) --> Ok() 解包 v 传入闭包，继续链式调用(继续new成结构体) 【✅这是我们的目的】
+      // 如果前一个是 Err() ,直接提前将Err返回
+
 }
 
 // Don't change anything below this line.

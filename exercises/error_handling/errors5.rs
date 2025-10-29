@@ -22,19 +22,26 @@
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+fn main() -> Result<(), Box<dyn error::Error>> {
     let pretend_user_input = "42";
-    let x: i64 = pretend_user_input.parse()?;
+    let x: i64 = pretend_user_input.parse()?; 
+    // ? 运算遇到Err(e) 会立即 return Err(From::from(e))
+    // 即Err(e)里面的e变成了Box<dyn Error>, 返回整个Err(Box<dyn Error>)
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);
     Ok(())
 }
+// 总结：
+/**
+ * 1. ?运算遇到Ok时，直接返回Ok()解包后的值
+ * 2. ?运算遇到Err时，直接在这个函数的位置返回Err （支持隐式转换成Box<dyn std::error::Error>）
+ */
+
 
 // Don't change anything below this line.
 
