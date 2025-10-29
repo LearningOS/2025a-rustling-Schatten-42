@@ -7,8 +7,6 @@
 // Execute `rustlings hint errors3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 use std::num::ParseIntError;
 
 fn main() {
@@ -16,6 +14,7 @@ fn main() {
     let pretend_user_input = "8";
 
     let cost = total_cost(pretend_user_input);
+
     let cost = match cost {
       Ok(fee) => fee,
       Err(err) => panic!("{err}")
@@ -27,6 +26,7 @@ fn main() {
         tokens -= cost;
         println!("You now have {tokens} tokens.");
     }
+    // Ok(()) // 改了main的签名，需要给它加个兜底的返回值 `() 用Ok包裹`
 }
 
 pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
