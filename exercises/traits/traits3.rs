@@ -8,10 +8,11 @@
 // Execute `rustlings hint traits3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 pub trait Licensed {
-    fn licensing_info(&self) -> String;
+    fn licensing_info(&self) -> String {
+      "Some information".to_string()
+    }
 }
 
 struct SomeSoftware {
@@ -24,6 +25,14 @@ struct OtherSoftware {
 
 impl Licensed for SomeSoftware {} // Don't edit this line
 impl Licensed for OtherSoftware {} // Don't edit this line
+// impl <traits> {直接实现}，加上上面两行空 impl，可以为一堆结构体实现统一的接口
+// ** 重要：不能为 外部 实现 外部trai ts ** ==> 相干性(coherence)/孤儿规则(orphan rule)
+// 确保了别人编写的代码不会破坏我的代码
+
+// - 你可以为 内部类型 SomeSoftware 实现外部接口  fmt::Display
+// - 也可以为 外部类型 Vec<T> 实现内部接口  append_bar
+// - 更可以为 内部类型实现内部接口...
+
 
 #[cfg(test)]
 mod tests {

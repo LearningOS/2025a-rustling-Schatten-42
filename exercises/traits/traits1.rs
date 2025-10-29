@@ -7,14 +7,18 @@
 // Execute `rustlings hint traits1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 trait AppendBar {
     fn append_bar(self) -> Self;
 }
 
+// 单个 impl 为单个结构体实现一组方法
+// impl <traits> for <类型> 实现本类型的一组接口（其实和非traits方法差不多，区别在后头（traits3.rs））
 impl AppendBar for String {
     // TODO: Implement `AppendBar` for type `String`.
+    fn append_bar(mut self) -> Self {
+      self.push_str("Bar");
+      self
+    }
 }
 
 fn main() {
