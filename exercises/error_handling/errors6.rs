@@ -45,7 +45,12 @@ fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroE
              .and_then(|v| PositiveNonzeroInteger::new(v).map_err(ParsePosNonzeroError::from_creation))
       // and_then
       // 如果前一个返回的 Result 是 Ok(v) --> Ok() 解包 v 传入闭包，继续链式调用(继续new成结构体) 【✅这是我们的目的】
-      // 如果前一个是 Err() ,直接提前将Err返回
+      // 如果前一个是 Err() ,直接提前将Err返回（和map对Err的处理完全一样）
+      // 
+      // and_then 和map的区别：
+      // map 传入Ok会自动解包，操作后自动Ok装包回去
+      // `map遇到Ok回Ok遇到Err回Err`
+      // and_then会解包Ok, 但它不自动包Ok 所以必要时需要自己包上Ok
 
 }
 

@@ -14,6 +14,7 @@ struct Foo {
     b: Option<String>,
 }
 
+
 /// # Safety
 ///
 /// The `ptr` must contain an owned box of `Foo`.

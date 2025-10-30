@@ -15,7 +15,10 @@ pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
     match c.next() {
         None => String::new(),
-        Some(first) => ???,
+        // Some(first) => first.to_uppercase().to_string() + &input[1..],
+        // Some(first) => first.to_uppercase().to_string() + c.as_str(),
+        Some(first) => first.to_uppercase().collect::<String>() + c.as_str(),
+        // char 的 to_uppercase() 会返回一个ToUppercase 迭代器，collect变String
     }
 }
 
@@ -24,7 +27,15 @@ pub fn capitalize_first(input: &str) -> String {
 // Return a vector of strings.
 // ["hello", "world"] -> ["Hello", "World"]
 pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
-    vec![]
+  // [lowB 做法]
+  // let mut ss = Vec::<String>::new();
+  // for s in words.iter() {
+  //   ss.push(capitalize_first(s)); // 这里自动把 s:&&str 解引用成 &str 了
+  // }
+  // ss
+  // [高级做法]
+  words.iter().map(|w| capitalize_first(w)).collect()
+  // map 从iter中获取到的w 也是 &&str [传入什么，就传出什么] 回的仍是迭代器
 }
 
 // Step 3.
@@ -32,7 +43,11 @@ pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
 // Return a single string.
 // ["hello", " ", "world"] -> "Hello World"
 pub fn capitalize_words_string(words: &[&str]) -> String {
-    String::new()
+
+  // 第二题需要： String 拼成Vec<String>
+  // 第三题需要：多个String直接拼String
+  // 使用 collect 的 “目标导向类型推导”（turbofish）可以一行代码实现两个功能
+    words.iter().map(|w| capitalize_first(w)).collect()
 }
 
 #[cfg(test)]
