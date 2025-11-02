@@ -8,8 +8,10 @@
 // Execute `rustlings hint threads1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
+// 1. 闭包会捕获使用到的环境变量: 仅读取=>不可变引用 | 修改=>可变引用 | +move关键字=>对于用到的变量一律夺取所有权
+// 2. handle.join().unwrap() 阻塞直至该线程执行完毕
+// 3. join() 返回的是 Result<T, Box<dyn Any + Send>>，T 就是闭包返回值, 将 Ok(T) unwrap() 后就是结果 (把线程内的结果安全返回的唯一方法)
 use std::thread;
 use std::time::{Duration, Instant};
 
@@ -27,6 +29,8 @@ fn main() {
     let mut results: Vec<u128> = vec![];
     for handle in handles {
         // TODO: a struct is returned from thread::spawn, can you use it?
+        let time = handle.join().unwrap();
+        results.push(time);
     }
 
     if results.len() != 10 {
