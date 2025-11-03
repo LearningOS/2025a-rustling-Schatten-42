@@ -5,9 +5,9 @@
 // Execute `rustlings hint macros3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 mod macros {
+  #[macro_export] // 默认把宏搬到 crate root, 和 pub 不一样
     macro_rules! my_macro {
         () => {
             println!("Check out my macro!");
@@ -15,6 +15,8 @@ mod macros {
     }
 }
 
+
 fn main() {
-    my_macro!();
+    // self::my_macro!();
+    crate::my_macro!();
 }
