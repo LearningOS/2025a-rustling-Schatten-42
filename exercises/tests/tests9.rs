@@ -29,14 +29,22 @@
 
 // I AM NOT DONE
 
-extern "Rust" {
+// 从外部导入的函数放在这里: 符号为Rust
+extern "Rust" { 
     fn my_demo_function(a: u32) -> u32;
+
+    // 上文原话: `可以对这些函数声明应用一些属性来修改链接行为`
+    #[link_name = "my_demo_function"] // 告诉链接器:"下面的函数是my_demo_function的别名"
     fn my_demo_function_alias(a: u32) -> u32;
 }
 
 mod Foo {
+  
+  // 从本地(Rust项目内部的模块或crates之间)导出函数: 不需要加 extern "Rust" 来导出 (因为默认)
+  // 别的语言, 导出时,要加 pub extern "C" fn ...
     // No `extern` equals `extern "Rust"`.
-    fn my_demo_function(a: u32) -> u32 {
+    #[no_mangle]                              // 导出裸符号 my_demo_function, 不要使用符号混淆
+    /*pub extern "Rust"*/ fn my_demo_function(a: u32) -> u32 {
         a
     }
 }
