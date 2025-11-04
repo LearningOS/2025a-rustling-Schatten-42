@@ -44,6 +44,29 @@ impl Default for Person {
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+      // let v: Vec<&str> = s.split(",").collect();
+      // if v[0] == "" || v.len() != 2 {
+      //   Person::default()
+      // } else {
+      //   let mut p = Person {name: v[0].to_string(), age: 0};
+      //   match v[1].parse::<usize>() {
+      //     Ok(a) => p.age = a,
+      //     Err(_) => return Person::default(),
+      //   }
+      //   p
+      // }
+
+      // [Kimi]-> 超级rusty写法
+      // TODO: 学习一下
+      
+      s.split_once(',')                 // 1. 只切一次
+      .filter(|(n, a)| !n.is_empty()) // 2. 名字非空
+      .and_then(|(n, a)| a.parse().ok().map(|age| Person {
+          name: n.to_string(),
+          age,
+      }))
+      .unwrap_or_default()          // 3. 任何失败 → John,30
+      
     }
 }
 
