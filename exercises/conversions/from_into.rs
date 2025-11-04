@@ -40,7 +40,6 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
@@ -59,9 +58,9 @@ impl From<&str> for Person {
       // [Kimi]-> 超级rusty写法
       // TODO: 学习一下
       
-      s.split_once(',')                 // 1. 只切一次
-      .filter(|(n, a)| !n.is_empty()) // 2. 名字非空
-      .and_then(|(n, a)| a.parse().ok().map(|age| Person {
+      s.split_once(',')                 // 1. 只切一次 => 找不到`,`返回None => 否则Option<(&str, &str)>
+      .filter(|(n, a)| !n.is_empty()) // 2. Option自己的filter: 传入None,返回None => 否则断言: name是非空的,如果空,返回None
+      .and_then(|(n, a)| a.parse().ok().map(|age| Person { // ok()作用: Result 转换为 Option; Option的map()用于生成Person
           name: n.to_string(),
           age,
       }))

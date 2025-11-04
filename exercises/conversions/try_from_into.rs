@@ -27,7 +27,6 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
 
 // Your task is to complete this implementation and return an Ok result of inner
 // type Color. You need to create an implementation for a tuple of three
@@ -37,17 +36,37 @@ enum IntoColorError {
 // time, but the slice implementation needs to check the slice length! Also note
 // that correct RGB color values must be integers in the 0..=255 range.
 
+/**
+ * NOTE: 重点!
+ * for 循环 / 闭包拿到的就是迭代器的 Item 类型；
+ *    而 xxx.into_iter() 的调用者身份（不可变引用 / 可变引用 / 原值）
+ * 决定了最终 Item 是 &T / &mut T / T。
+ * 
+ */
+
+
+
+
+
 // Tuple implementation
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+      let (r, g, b) = tuple;
+      [r, g, b].into_iter().try_for_each(|x| 
+        (0..=255).contains(&x).then_some(()).ok_or(Self::Error::IntConversion)
+      )?; // 函数返回Err, 直接在当前位置向上传播 Err(),  否则解包 Ok() ==> 这里不需要接收Ok解包的返回值=>能过就说明Ok()=>就说明数据能用
+      Ok(Color{red: r as u8, green: g as u8, blue: b as u8})
     }
-}
+} // bool 值转 Result 套路: then_some() 先转Option, 再用ok_or() 转Result, 内部填错误类型
 
 // Array implementation
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+      arr.into_iter().try_for_each(|v| (v <= 255 && v >= 0).then_some(()).ok_or(Self::Error::IntConversion))?;
+      Ok(Color{red: arr[0] as u8, green: arr[1] as u8, blue: arr[2] as u8})
+
     }
 }
 
@@ -55,6 +74,15 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+      if slice.len() != 3 {
+        return Err(Self::Error::BadLen);
+      } else {
+        slice.into_iter().try_for_each(|v| (0..=255).contains(v).then_some(()).ok_or(Self::Error::IntConversion))?;
+
+        Ok(Color{red: slice[0] as u8, green: slice[1] as u8, blue: slice[2] as u8})
+      }
+
+
     }
 }
 
